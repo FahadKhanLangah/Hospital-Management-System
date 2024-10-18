@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ReactTyped } from 'react-typed';
 import bg from '../assets/bg.webp'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginAdmin } from '../Redux/Actions/adminAction';
+import { clearErrors, clearMessages, loginAdmin } from '../Redux/Actions/adminAction';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 const Login = () => {
@@ -24,7 +24,11 @@ const Login = () => {
     if (isAuth) {
       navigate('/')
     }
-  }, [error, loading, isAuth, navigate, message]);
+    return () => {
+      dispatch(clearMessages());
+      dispatch(clearErrors());
+    }
+  }, [error, loading, isAuth, navigate, message, dispatch]);
   const handleLogin = () => {
     const formdata = {
       username, password

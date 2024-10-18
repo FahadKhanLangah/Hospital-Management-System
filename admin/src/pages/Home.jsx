@@ -4,7 +4,7 @@ import DashBoard from "../utils/DashBoard"
 import PaymentBoard from "../utils/PaymentBoard"
 import { ReactTyped } from 'react-typed';
 import { useDispatch, useSelector } from "react-redux";
-import { getAllDoctors, getAllPatients } from "../Redux/Actions/adminAction";
+import { clearErrors, clearMessages, getAllDoctors, getAllPatients } from "../Redux/Actions/adminAction";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -18,6 +18,10 @@ const Home = () => {
     }
     if (!patients.length) {
       dispatch(getAllPatients()); // Fetch patients only if not already present
+    }
+    return ()=>{
+      dispatch(clearMessages());
+      dispatch(clearErrors());
     }
   }, [dispatch, doctors, patients])
   const navigate = useNavigate();

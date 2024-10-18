@@ -1,10 +1,11 @@
-import { ADD_DOCTORS_FAIL, ADD_DOCTORS_REQUEST, ADD_DOCTORS_SUCCESS, GET_ALL_DOCTORS_FAIL, GET_ALL_DOCTORS_REQUEST, GET_ALL_DOCTORS_SUCCESS, GET_ALL_PATIENTS_FAIL, GET_ALL_PATIENTS_REQUEST, GET_ALL_PATIENTS_SUCCESS, LOGIN_ADMIN_FAIL, LOGIN_ADMIN_REQUEST, LOGIN_ADMIN_SUCCESS, LOGOUT_ADMIN_FAIL, LOGOUT_ADMIN_REQUEST, LOGOUT_ADMIN_SUCCESS } from "../Constants/Admin.constants";
+import { ADD_DOCTORS_FAIL, ADD_DOCTORS_REQUEST, ADD_DOCTORS_SUCCESS, CLEAR_ERRORS, CLEAR_MESSAGES, GET_ALL_DOCTORS_FAIL, GET_ALL_DOCTORS_REQUEST, GET_ALL_DOCTORS_SUCCESS, GET_ALL_PATIENTS_FAIL, GET_ALL_PATIENTS_REQUEST, GET_ALL_PATIENTS_SUCCESS, LOGIN_ADMIN_FAIL, LOGIN_ADMIN_REQUEST, LOGIN_ADMIN_SUCCESS, LOGOUT_ADMIN_FAIL, LOGOUT_ADMIN_REQUEST, LOGOUT_ADMIN_SUCCESS } from "../Constants/Admin.constants";
 
 const initialState = {
   loading: false,
   isAuth: false,
   admin: JSON.parse(localStorage.getItem("admin")) || null,
-  error: null
+  error: null,
+  message: null
 }
 export const adminReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -42,6 +43,16 @@ export const adminReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload
       }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        message: null,
+      };
     default:
       return state;
   }
@@ -50,7 +61,8 @@ export const adminReducer = (state = initialState, action) => {
 const doctorState = {
   loading: false,
   doctors: [],
-  error: null
+  error: null,
+  message: null
 }
 export const doctorReducer = (state = doctorState, action) => {
   switch (action.type) {
@@ -96,6 +108,16 @@ export const doctorReducer = (state = doctorState, action) => {
         addDoctorSuccess: false,
         error: action.payload
       };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        message: null,
+      };
     default:
       return state;
   }
@@ -127,6 +149,11 @@ export const patientReducer = (state = patientState, action) => {
         patients: [],
         error: action.payload
       }
+      case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
     default:
       return state;
   }
