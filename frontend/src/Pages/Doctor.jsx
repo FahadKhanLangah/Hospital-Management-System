@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Doctor = () => {
@@ -9,6 +10,7 @@ const Doctor = () => {
       toast(error)
     }
   }, [error]);
+  const navigate = useNavigate()
   return (
     <div>
       <h1 className="text-2xl font-semibold ">
@@ -16,7 +18,7 @@ const Doctor = () => {
       </h1>
       <div className='grid grid-cols-2 my-4 sm:grid-cols-5 place-items-center justify-items-center gap-4'>
         {doctors && doctors.map((v, i) =>
-          <div key={i} className='w-36 relative h-56 bg-gray-300 hover:-translate-y-2 flex justify-center items-center flex-col border cursor-pointer rounded'>
+          <div onClick={()=>navigate(`/appointment/${v._id}`)} key={i} className='w-36 relative h-56 bg-gray-300 hover:-translate-y-2 flex justify-center items-center flex-col border cursor-pointer rounded'>
             <img className='w-32 rounded absolute top-2' src={v.avatar?.url} alt="" />
             <div className='p-1 mt-36 flex flex-col'>
               <div className='flex justify-start items-center gap-3 text-green-600 font-medium'>

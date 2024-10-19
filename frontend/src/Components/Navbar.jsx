@@ -16,9 +16,9 @@ const Navbar = () => {
       setToken(true)
     }
   }, [user]);
-  useEffect(() => {
-    dispatch(getloginUserDetail());
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getloginUserDetail());
+  // }, [dispatch]);
   const { error, message } = useSelector(v => v.user);
   useEffect(() => {
     if (error) {

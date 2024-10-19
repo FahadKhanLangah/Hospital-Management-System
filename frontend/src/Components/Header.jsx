@@ -1,6 +1,7 @@
 import docImg from '../assets/doctor.jfif'
 import docWithoutbg from '../assets/bg.png'
 import { ReactTyped } from 'react-typed'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
   const data = [
@@ -18,12 +19,12 @@ const Header = () => {
               <img className='w-10 h-10 rounded-full object-cover' src={docImg} alt="" />
               <img className='w-10 h-10 rounded-full object-cover -ml-2' src={docImg} alt="" />
             </div>
-            <p className='text-black font-medium text-sm text-white'>
+            <p className=' font-medium text-sm text-white'>
               {/* Browse our Trusted Doctors, <br />schedule your appointed hassle-free */}
               <ReactTyped backDelay={500} strings={data} typeSpeed={100} backSpeed={20} loop></ReactTyped>
             </p>
           </div>
-          <button>Book Appointment</button>
+          <Link to={'/doctors'}><button>Book Appointment</button></Link>
         </div>
       </div>
       <div className='sm:min-w-[50%] w-1/3 relative'>
