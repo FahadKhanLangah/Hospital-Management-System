@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
+import { toast } from 'react-toastify'
+import { makeAppointment } from "../Redux/Actions/userAction";
 const Appointment = () => {
   const { doctors } = useSelector(v => v.doctors);
   const { docId } = useParams();
@@ -105,8 +106,26 @@ const Appointment = () => {
     }
     setBookedTime(bookDate);
   }
+  const { loading, isSuccess, message, error } = useSelector(a => a.appointment);
+  useEffect(() => {
+    if (loading) {
+      toast.dark("Please wait")
+    }
+    if (isSuccess) {
+      toast.success("Appointment Register successFully")
+    } if (message) {
+      toast.success(message)
+    } if (error) {
+      toast.error(error)
+    }
+  }, [error, message, isSuccess, loading, dispatch])
+  const dispatch = useDispatch()
   const handleSubmit = () => {
-    console.log(bookedDate)
+    const formdata = {
+      doctor: docId,
+      date: bookedDate
+    };
+    dispatch(makeAppointment(formdata));
   }
   return (
     <div className="sm:flex">

@@ -3,7 +3,7 @@ import { Appointment } from "../models/appointmentModel.js";
 
 export const bookAppointment = async (req, res) => {
   try {
-    const { doctor, date, timeBooked } = req.body;
+    const { doctor, date } = req.body;
     const user = req.user
     if (!user) {
       return res.status(401).json({
@@ -11,19 +11,20 @@ export const bookAppointment = async (req, res) => {
         message: "Please Login to make Appointment"
       })
     }
-    if (!doctor || !date || !timeBooked) {
+    if (!doctor || !date) {
       return res.status(401).json({
         success: false,
-        message: "Doctor, Date and Time is required"
+        message: "Doctor and Date is required"
       })
     }
     const patient = user._id
     const newAppointment = await Appointment.create({
-      doctor, patient, timeBooked, date
+      doctor, patient,
+      bookedDate: date
     })
     return res.status(201).json({
       success: true,
-      message: `Your Appointment is booked on ${date} at ${timeBooked}`,
+      message: `Your Appointment is booked on ${date.date.weekday} at ${date.time}`,
       newAppointment
     })
   } catch (error) {
@@ -49,6 +50,35 @@ export const cancelAppointment = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: `Your Appointment is cancelled`,
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
+
+export const myAppointments = async (req, res) => {
+  try {
+    const user = req.user
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Please Login to see Your Appointments"
+      })
+    }
+    const patient = user._id
+    const appointments = await Appointment.find({ patient: patient });
+    if (!appointments) {
+      return res.status(400).json({
+        success: false,
+        message: "You have not any Appointment"
+      })
+    }
+    return res.status(201).json({
+      success: true,
+      appointments
     })
   } catch (error) {
     return res.status(500).json({

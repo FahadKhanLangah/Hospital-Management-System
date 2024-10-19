@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { doctorReducer } from './Reducers/doctorReducer';
-import { updateUserReducer, userReducer } from './Reducers/userReducer';
+import { appointmentReducer, myAppointmentReducer, updateUserReducer, userReducer } from './Reducers/userReducer';
 
 const allReducers = {
   doctors: doctorReducer,
   user: userReducer,
-  update : updateUserReducer
+  update: updateUserReducer,
+  appointment: appointmentReducer,
+  myAppointment: myAppointmentReducer
 }
 const store = configureStore({
   reducer: allReducers
