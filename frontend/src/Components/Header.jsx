@@ -1,4 +1,3 @@
-import docImg from '../assets/doctor.jfif'
 import docWithoutbg from '../assets/bg.png'
 import { ReactTyped } from 'react-typed'
 import { Link } from 'react-router-dom'
@@ -16,8 +15,8 @@ const Header = () => {
           </h1>
           <div className='flex sm:flex-row flex-col sm:gap-4'>
             <div className='flex relative'>
-              <img className='w-10 h-10 rounded-full object-cover' src={docImg} alt="" />
-              <img className='w-10 h-10 rounded-full object-cover -ml-2' src={docImg} alt="" />
+              <img className='w-10 h-10 rounded-full object-cover' src="https://images.herzindagi.info/image/2021/Mar/gynae-checks-main.jpg" alt="" />
+              <img className='w-10 h-10 rounded-full object-cover -ml-2' src="https://enshrinehealthcaresystems.com/img/products/112b7f29-a719-4e72-8d57-987556260be6.jpg" alt="" />
             </div>
             <p className=' font-medium text-sm text-white'>
               {/* Browse our Trusted Doctors, <br />schedule your appointed hassle-free */}

@@ -24,19 +24,22 @@ const AppointmentDetail = () => {
       dispatch(getMyAppointments());
     }
   }, [dispatch, appointments]);
+  let sortedAppointments;
   // [...appointments] ensures that we should not modify the original state bcoz it creates copy
-  const sortedAppointments = [...appointments].sort((a, b) => {
-    if (a.cancel && !b.cancel) return 1; // A is cancelled true and b is false a is placed after b bcoz of return 1
-    if (!a.cancel && b.cancel) return -1; // A is cancelled false and b is true a is placed before b bcoz of return -1
+  if (appointments && appointments.length > 0) {
+    sortedAppointments = [...appointments].sort((a, b) => {
+      if (a.cancel && !b.cancel) return 1; // A is cancelled true and b is false a is placed after b bcoz of return 1
+      if (!a.cancel && b.cancel) return -1; // A is cancelled false and b is true a is placed before b bcoz of return -1
 
-    const dateA = new Date(`2024-01-01 ${a.bookedDate?.time}`);
-    const dateB = new Date(`2024-01-01 ${b.bookedDate?.time}`);
+      const dateA = new Date(`2024-01-01 ${a.bookedDate?.time}`);
+      const dateB = new Date(`2024-01-01 ${b.bookedDate?.time}`);
 
-    if (a.bookedDate?.date?.dayNumber !== b.bookedDate?.date?.dayNumber) {
-      return a.bookedDate?.date?.dayNumber - b.bookedDate?.date?.dayNumber;
-    }
-    return dateA - dateB;
-  });
+      if (a.bookedDate?.date?.dayNumber !== b.bookedDate?.date?.dayNumber) {
+        return a.bookedDate?.date?.dayNumber - b.bookedDate?.date?.dayNumber;
+      }
+      return dateA - dateB;
+    });
+  }
 
   return (
     <>
