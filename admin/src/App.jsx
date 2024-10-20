@@ -25,6 +25,10 @@ const routes = createBrowserRouter([
   {
     path: '/patient-list',
     element: <PatientList></PatientList>
+  },
+  {
+    path: '/appointment-list',
+    element: <AppointmentList></AppointmentList>
   }
 ]);
 import { ToastContainer } from 'react-toastify'
@@ -33,6 +37,7 @@ import Register from './pages/Register';
 import AddDoctor from './pages/AddDoctor';
 import DoctorList from './pages/DoctorList';
 import PatientList from './pages/PatientList';
+import AppointmentList from './pages/AppointmentList';
 function App() {
 
   return (

@@ -47,7 +47,7 @@ export const cancelAppointment = async (req, res) => {
         message: "Appointment is not found"
       })
     }
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: `Your Appointment is cancelled`,
     })
@@ -76,7 +76,28 @@ export const myAppointments = async (req, res) => {
         message: "You have not any Appointment"
       })
     }
-    return res.status(201).json({
+    return res.status(200).json({
+      success: true,
+      appointments
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
+
+export const allAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.find().populate("patient").select("-password").populate("doctor").select("-password");
+    if (!appointments) {
+      return res.status(400).json({
+        success: false,
+        message: "No any Appointment to show"
+      })
+    }
+    return res.status(200).json({
       success: true,
       appointments
     })

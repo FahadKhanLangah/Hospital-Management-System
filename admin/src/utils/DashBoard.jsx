@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 const DashBoard = () => {
   const { doctors } = useSelector(v => v.doctor);
   const { patients } = useSelector(v => v.patient);
+  const { appointments } = useSelector(v => v.appointment)
   return (
     <div className='flex flex-col justify-center items-center'>
       <div className='flex flex-wrap gap-4 justify-between w-[70%] my-4'>
@@ -23,11 +24,13 @@ const DashBoard = () => {
             <h1>{patients.length < 10 ? "0" : ""}{patients.length}+</h1>
           </div>
         </Link>
-        <div className='duration-200 h-64 gap-2 hover:scale-110 cursor-pointer bg-gray-400 w-64 rounded-full m-2 flex flex-col overflow-hidden justify-center items-center'>
-          <h1 className='text-center text-lg mt-3'>Appointments</h1>
-          <img className='max-w-44 max-h-32' src={patientPng} alt="Doctor Png" />
-          <h1>10+</h1>
-        </div>
+        <Link to={'/appointment-list'}>
+          <div className='duration-200 h-64 gap-2 hover:scale-110 cursor-pointer bg-gray-400 w-64 rounded-full m-2 flex flex-col overflow-hidden justify-center items-center'>
+            <h1 className='text-center text-lg mt-3'>Appointments</h1>
+            <img className='max-w-44 max-h-32' src={patientPng} alt="Doctor Png" />
+            <h1>{appointments.length < 10 ? "0" : ""}{appointments.length}+</h1>
+          </div>
+        </Link>
       </div>
     </div>
   )

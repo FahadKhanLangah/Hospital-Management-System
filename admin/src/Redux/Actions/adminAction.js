@@ -1,4 +1,4 @@
-import { ADD_DOCTORS_FAIL, ADD_DOCTORS_REQUEST, ADD_DOCTORS_SUCCESS, CLEAR_ERRORS, CLEAR_MESSAGES, GET_ALL_DOCTORS_FAIL, GET_ALL_DOCTORS_REQUEST, GET_ALL_DOCTORS_SUCCESS, GET_ALL_PATIENTS_FAIL, GET_ALL_PATIENTS_REQUEST, GET_ALL_PATIENTS_SUCCESS, LOGIN_ADMIN_FAIL, LOGIN_ADMIN_REQUEST, LOGIN_ADMIN_SUCCESS, LOGOUT_ADMIN_FAIL, LOGOUT_ADMIN_REQUEST, LOGOUT_ADMIN_SUCCESS } from "../Constants/Admin.constants"
+import { ADD_DOCTORS_FAIL, ADD_DOCTORS_REQUEST, ADD_DOCTORS_SUCCESS, CLEAR_ERRORS, CLEAR_MESSAGES, GET_ALL_APPOINTMENTS_FAIL, GET_ALL_APPOINTMENTS_REQUEST, GET_ALL_APPOINTMENTS_SUCCESS, GET_ALL_DOCTORS_FAIL, GET_ALL_DOCTORS_REQUEST, GET_ALL_DOCTORS_SUCCESS, GET_ALL_PATIENTS_FAIL, GET_ALL_PATIENTS_REQUEST, GET_ALL_PATIENTS_SUCCESS, LOGIN_ADMIN_FAIL, LOGIN_ADMIN_REQUEST, LOGIN_ADMIN_SUCCESS, LOGOUT_ADMIN_FAIL, LOGOUT_ADMIN_REQUEST, LOGOUT_ADMIN_SUCCESS } from "../Constants/Admin.constants"
 import axios from 'axios'
 
 export const loginAdmin = (formdata) => async (dispatch) => {
@@ -85,6 +85,22 @@ export const getAllPatients = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_ALL_PATIENTS_FAIL,
+      payload: error.response?.data?.message || error.message
+    })
+  }
+}
+
+export const getAllAppointments = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_APPOINTMENTS_REQUEST });
+    const { data } = await axios.get('/api/v1/admin/all-appointments');
+    dispatch({
+      type: GET_ALL_APPOINTMENTS_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_APPOINTMENTS_FAIL,
       payload: error.response?.data?.message || error.message
     })
   }

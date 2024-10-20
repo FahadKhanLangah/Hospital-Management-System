@@ -4,26 +4,42 @@ import DashBoard from "../utils/DashBoard"
 import PaymentBoard from "../utils/PaymentBoard"
 import { ReactTyped } from 'react-typed';
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, clearMessages, getAllDoctors, getAllPatients } from "../Redux/Actions/adminAction";
+import { clearErrors, clearMessages, getAllAppointments, getAllDoctors, getAllPatients } from "../Redux/Actions/adminAction";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { useMemo } from "react";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { doctors } = useSelector(v => v.doctor);
   const { patients } = useSelector(v => v.patient);
   const { admin } = useSelector(v => v.admin);
+  const { appointments, error } = useSelector(v => v.appointment)
+  const shouldFetchDoctors = useMemo(() => !doctors.length, [doctors.length]);
+  const shouldFetchPatients = useMemo(() => !patients.length, [patients.length]);
+  const shouldFetchAppointments = useMemo(() => !appointments.length, [appointments.length]);
+
   useEffect(() => {
-    if (!doctors.length) {
-      dispatch(getAllDoctors());  // Fetch doctors only if not already present
+    if (shouldFetchDoctors) {
+      dispatch(getAllDoctors());  
     }
-    if (!patients.length) {
-      dispatch(getAllPatients()); // Fetch patients only if not already present
+    if (shouldFetchPatients) {
+      dispatch(getAllPatients()); 
     }
-    return ()=>{
-      dispatch(clearMessages());
-      dispatch(clearErrors());
+    if (shouldFetchAppointments) {
+      dispatch(getAllAppointments()); 
     }
-  }, [dispatch, doctors, patients])
+
+    if (error) {
+      toast.error(error);
+    }
+
+    return () => {
+      dispatch(clearMessages()); 
+      dispatch(clearErrors());   
+    };
+  }, [dispatch, shouldFetchDoctors, shouldFetchPatients, shouldFetchAppointments, error]); // Removed doctors, patients, and appointments from the dependency array
+
   const navigate = useNavigate();
   useEffect(() => {
     if (!admin) {
