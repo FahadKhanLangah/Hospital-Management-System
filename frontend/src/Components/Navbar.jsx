@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import testImg from '../assets/test.png'
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getloginUserDetail, logoutUser } from "../Redux/Actions/userAction";
+import { logoutUser } from "../Redux/Actions/userAction";
 
 const Navbar = () => {
   const [tab, setTab] = useState("home");

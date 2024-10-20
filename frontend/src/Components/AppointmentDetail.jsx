@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { clearErrors, clearMessages, getMyAppointments } from '../Redux/Actions/userAction';
+import ActionButton from './ActionButton';
 const AppointmentDetail = () => {
   const dispatch = useDispatch();
   const { loading, appointments, error } = useSelector(a => a.myAppointment);
@@ -22,7 +23,8 @@ const AppointmentDetail = () => {
     if (!appointments) {
       dispatch(getMyAppointments());
     }
-  }, [dispatch, appointments])
+  }, [dispatch, appointments]);
+
   return (
     <>
       {
@@ -30,8 +32,8 @@ const AppointmentDetail = () => {
         appointments.map((v, i) => {
           const doctor = doctors.find(d => d._id === v.doctor);
           return (
-            <div key={i} className="flex my-5 py-2 border-b-8 sm:flex-row flex-col gap-4 flex-wrap">
-              <div className="sm:w-[40%] border-r-2">
+            <div key={i} className={`${v.cancel ? 'bg-blue-100 rounded-md' : ''} flex my-5 py-2 border-b-8 sm:flex-row flex-col gap-4 flex-wrap`}>
+              <div className="sm:w-[40%] p-4 border-r-2">
                 <b>Doctor Detail</b>
                 <div className='flex gap-6'>
                   <img className='w-40 rounded my-2' src={doctor?.avatar.url} alt="" />
@@ -42,7 +44,7 @@ const AppointmentDetail = () => {
                   </div>
                 </div>
               </div>
-              <div className="sm:w-[35%] border-r-2">
+              <div className="sm:w-[35%] p-4 border-r-2">
                 <b className='text-3xl'>Booked Detail</b>
                 <div className='sm:mt-4'>
                   <strong>{v.bookedDate?.date?.dayNumber} {v.bookedDate?.date?.weekday}, {v.bookedDate?.time}</strong>
@@ -55,13 +57,9 @@ const AppointmentDetail = () => {
                   <p className={`font-medium ${v.payment === 'pending' ? 'text-red-600' : 'text-green-500'}`}>{v.payment}</p>
                 </div>
               </div>
-              <div className="sm:w-[20%]">
-                <b>Actions</b>
-                <div className='flex flex-col gap-3 mt-4 sm:mt-10'>
-                  <button className='bg-orange-500 hover:bg-blue-600'>Cancel</button>
-                  <button className='bg-orange-500 hover:bg-blue-600'>Pay Challan</button>
-                </div>
-              </div>
+              {v.cancel ?
+                <div className='sm:w-[20%] text-2xl font-semibold text-center sm:pt-14 '>Your Appointment was cancelled</div> : <ActionButton id={v._id}></ActionButton>
+              }
             </div>
           )
         }
