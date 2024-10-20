@@ -90,7 +90,14 @@ export const myAppointments = async (req, res) => {
 
 export const allAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.find().populate("patient").select("-password").populate("doctor").select("-password");
+    const appointments = await Appointment.find().populate({
+      path: "patient",
+      select: "-password"
+    })
+    .populate({
+      path: "doctor",
+      select: "-password"
+    });
     if (!appointments) {
       return res.status(400).json({
         success: false,
