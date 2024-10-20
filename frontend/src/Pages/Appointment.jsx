@@ -2,19 +2,17 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from 'react-toastify'
-import { makeAppointment } from "../Redux/Actions/userAction";
+import { getMyAppointments, makeAppointment } from "../Redux/Actions/userAction";
 const Appointment = () => {
   const { doctors } = useSelector(v => v.doctors);
   const { docId } = useParams();
   const doctor = doctors.find(v => v._id === docId);
 
-  // Date Logic
   const [days, setDays] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
   const [timeSlots, setTimeSlots] = useState([]);
   const [bookedDate, setBookedTime] = useState();
-
-  // Get next 7 days
+  const dispatch = useDispatch()
   useEffect(() => {
     const getNext7Days = () => {
       const daysArr = [];
@@ -23,8 +21,8 @@ const Appointment = () => {
         const nextDay = new Date(today);
         nextDay.setDate(today.getDate() + i);
         const day = {
-          dayNumber: nextDay.getDate(), // Day number (e.g., 02)
-          weekday: nextDay.toLocaleString('en-US', { weekday: 'short' }) // Weekday name (e.g., Mon)
+          dayNumber: nextDay.getDate(),
+          weekday: nextDay.toLocaleString('en-US', { weekday: 'short' })
         };
         daysArr.push(day);
       }
@@ -73,32 +71,6 @@ const Appointment = () => {
     setTimeSlots(generatedSlots);
   };
 
-  // Code with error
-  // const generateTimeSlots = () => {
-  //   const slots = [];
-  //   const currentTime = new Date();
-  //   let currentHour = currentTime.getHours()
-  //   const currentDate = currentTime.getDate()
-  //   if (currentDate === selectedDay.dayNumber) {
-  //     for (let i = currentHour + 1; i <= 18; i++) {
-  //       const time = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
-  //       slots.push(time);
-  //     }
-  //   } else {
-  //     // Otherwise, show slots from 10AM to 6PM
-  //     for (let i = 10; i <= 18; i++) {
-  //       const time = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
-  //       slots.push(time);
-  //     }
-  //   }
-  //   return slots;
-  // };
-
-  // const handleDaySelect = (day) => {
-  //   setSelectedDay(day);
-  //   setTimeSlots(generateTimeSlots());
-  // };
-
   const handleDate = (time) => {
     const bookDate = {
       time,
@@ -112,14 +84,13 @@ const Appointment = () => {
       toast.dark("Please wait")
     }
     if (isSuccess) {
-      toast.success("Appointment Register successFully")
+      dispatch(getMyAppointments());
     } if (message) {
       toast.success(message)
     } if (error) {
       toast.error(error)
     }
-  }, [error, message, isSuccess, loading, dispatch])
-  const dispatch = useDispatch()
+  }, [error, message, isSuccess, loading,dispatch])
   const handleSubmit = () => {
     const formdata = {
       doctor: docId,

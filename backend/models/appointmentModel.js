@@ -11,7 +11,7 @@ const appointmentSchema = new mongoose.Schema({
     },
   },
   payment: { type: String, default: "pending" },
-  cancel: { type: Boolean }
+  cancel: { type: Boolean, default: false }
 }, { timestamps: true })
 
 const Appointment = mongoose.model("Appointment", appointmentSchema);

@@ -37,7 +37,7 @@ export const bookAppointment = async (req, res) => {
 
 export const cancelAppointment = async (req, res) => {
   try {
-    const { appointmentID } = req.body;
+    const appointmentID = req.params.id;
     const appointment = await Appointment.findByIdAndUpdate({ _id: appointmentID }, {
       cancel: true
     })
