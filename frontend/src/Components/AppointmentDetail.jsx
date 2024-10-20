@@ -24,12 +24,25 @@ const AppointmentDetail = () => {
       dispatch(getMyAppointments());
     }
   }, [dispatch, appointments]);
+  // [...appointments] ensures that we should not modify the original state bcoz it creates copy
+  const sortedAppointments = [...appointments].sort((a, b) => {
+    if (a.cancel && !b.cancel) return 1; // A is cancelled true and b is false a is placed after b bcoz of return 1
+    if (!a.cancel && b.cancel) return -1; // A is cancelled false and b is true a is placed before b bcoz of return -1
+
+    const dateA = new Date(`2024-01-01 ${a.bookedDate?.time}`);
+    const dateB = new Date(`2024-01-01 ${b.bookedDate?.time}`);
+
+    if (a.bookedDate?.date?.dayNumber !== b.bookedDate?.date?.dayNumber) {
+      return a.bookedDate?.date?.dayNumber - b.bookedDate?.date?.dayNumber;
+    }
+    return dateA - dateB;
+  });
 
   return (
     <>
       {
-        appointments && appointments.length > 0 &&
-        appointments.map((v, i) => {
+        sortedAppointments && sortedAppointments.length > 0 &&
+        sortedAppointments.map((v, i) => {
           const doctor = doctors.find(d => d._id === v.doctor);
           return (
             <div key={i} className={`${v.cancel ? 'bg-blue-100 rounded-md' : ''} flex my-5 py-2 border-b-8 sm:flex-row flex-col gap-4 flex-wrap`}>

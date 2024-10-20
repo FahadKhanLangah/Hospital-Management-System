@@ -12,7 +12,7 @@ const Navbar = () => {
   const [token, setToken] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (user.name) {
+    if (user?.name) {
       setToken(true)
     }
   }, [user]);
